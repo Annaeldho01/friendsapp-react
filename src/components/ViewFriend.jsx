@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const ViewFriend = () => {
+    const [data,changeData]=useState(
+        [
+            ]
+    )
+    const fetchData=()=>{
+        axios.get("https://friendsapi-re5a.onrender.com/view").then(
+            (response)=>{
+                console.log(data)
+                changeData(response.data)
+            }
+                
+        ).catch().finally()
+    }
+    useEffect(()=>fetchData,[])
   return (
     <div>
         <Navbar/>
@@ -19,24 +34,18 @@ const ViewFriend = () => {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>mak</td>
-      <td>good</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
+    {data.map(
+        (value,index)=>{
+return <tr>
+<th scope="row">{index+1}</th>
+<td>{value.name}</td>
+<td>{value.friendName}</td>
+<td>{value.friendNickName}</td>
+<td>{value.DescribeYourFriend}</td>
+</tr>
+        }
+    )}
+    
   </tbody>
 </table>
                 </div>
